@@ -38,3 +38,14 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_BOOTSTRAP_SA }}
 
+      - name: Terraform Plan
+        id: plan
+        uses: subhamay-bhattacharyya-gha/tf-plan-action@feature/GHA-0028-hcp-terraform-state-manag
+        with:
+          terraform-dir: tf/
+          backend-type: remote
+          tfc-organization: ${{ secrets.TFC_ORGANIZATION }}
+          tfc-workspace: ${{ secrets.TFC_WORKSPACE }}
+          tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+          tf-vars-file: terraform.auto.tfvars.json
+
