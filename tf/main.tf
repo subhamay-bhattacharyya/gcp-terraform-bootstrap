@@ -1,7 +1,5 @@
 # --- root/main.tf ---
 
-# --- bootstrap/main.tf ---
-
 locals {
   # Flatten role bindings into a stable map for for_each
   # Key format: "<sa_key>::<role>"
