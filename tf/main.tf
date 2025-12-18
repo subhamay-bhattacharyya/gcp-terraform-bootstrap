@@ -18,13 +18,12 @@ locals {
   }
 }
 
-# # 1) Enable required Google APIs
-# resource "google_project_service" "required" {
-#   for_each           = var.required_apis
-#   project            = var.gcp_project_id
-#   service            = each.value
-#   disable_on_destroy = false
-# }
+resource "google_project_service" "required" {
+  for_each           = var.required_apis
+  project            = var.gcp_project_id
+  service            = each.value
+  disable_on_destroy = false
+}
 
 # # 2) Create service accounts (repo/project-specific)
 # resource "google_service_account" "this" {
