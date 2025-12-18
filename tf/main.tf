@@ -18,7 +18,7 @@ locals {
   }
 }
 
-resource "google_project_service" "required" {
+resource "google_project_service" "this" {
   for_each           = var.required_apis
   project            = var.gcp_project_id
   service            = each.value
