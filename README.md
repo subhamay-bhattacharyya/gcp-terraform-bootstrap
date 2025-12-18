@@ -123,7 +123,33 @@ All other service accounts are created and managed by Terraform.
 
 ## Step-by-Step Bootstrap Setup
 
-### Step 1 — Create the Bootstrap Service Account (One Time)
+### Step 1 — Authenticate with Google Cloud
+Authorize the Google Cloud CLI:
+
+gcloud auth login --no-launch-browser
+> ℹ️ Note Use --no-launch-browser when working in remote environments (Codespaces, SSH, Cloud Shell).
+
+> *_Common mistake (incorrect flag):_*
+
+`gcloud auth login --no-launch-bro`
+
+✔️ Correct flag:
+
+`--no-launch-browser`
+
+(Optional) Verify authentication:
+
+```bash
+gcloud auth list
+```
+
+
+### Step 2 — Create the Bootstrap Service Account (One Time)
+
+> Set the active project:
+```bash
+gcloud config set project <PROJECT_ID>
+```
 
 ```bash
 PROJECT_ID="gcp-projects"
@@ -135,7 +161,7 @@ gcloud iam service-accounts create tf-bootstrap-sa \
 
 ---
 
-### Step 2 — Grant Minimal Permissions to the Bootstrap Service Account
+### Step 3 — Grant Minimal Permissions to the Bootstrap Service Account
 
 ```bash
 BOOTSTRAP_SA="tf-bootstrap-sa@${PROJECT_ID}.iam.gserviceaccount.com"
@@ -161,31 +187,19 @@ These permissions allow the bootstrap to:
 
 ---
 
-Your section is **almost correct**, but it has a couple of issues that will break copy/paste and one best-practice tweak.
-
-### What to fix
-
-1. **Step 2 provider command is missing the closing quote and closing parenthesis** for `--attribute-mapping`.
-2. It’s a good idea to add `attribute.repository_owner` too (optional, but helpful later).
-3. If you re-run this, the pool/provider creation will error because they already exist (that’s fine, just note it).
-
-Here is a **validated, final copy-paste version** of **Step 3** with corrections.
-
----
-
-### Step 3 — Configure GitHub Actions OIDC with Workload Identity Federation
+### Step 4 — Configure GitHub Actions OIDC with Workload Identity Federation
 
 Configure **Workload Identity Federation (WIF)** so that **only this repository** can impersonate the bootstrap service account.
 
 > **Actions to be performed in sequence**
 
-#### 3.1 Set variables (adjust once)
+#### 4.1 Set variables (adjust once)
 
 ```bash
 PROJECT_ID="<YOUR_PROJECT_ID>"
 PROJECT_NUMBER="$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')"
 
-POOL_ID="github-pool"
+POOL_ID="subhamay-projects-github-pool"
 PROVIDER_ID="github"
 
 GITHUB_OWNER="subhamay-bhattacharyya"
@@ -195,16 +209,16 @@ BOOTSTRAP_SA_ID="tf-bootstrap-sa"
 BOOTSTRAP_SA_EMAIL="${BOOTSTRAP_SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
 ```
 
-#### 3.2 Create the Workload Identity Pool (one time)
+#### 4.2 Create the Workload Identity Pool (one time)
 
 ```bash
 gcloud iam workload-identity-pools create "$POOL_ID" \
   --project="$PROJECT_ID" \
   --location="global" \
-  --display-name="GitHub Actions Pool"
+  --display-name="GCP Projects GitHub Actions Pool"
 ```
 
-#### 3.3 Create the GitHub OIDC Provider
+#### 4.3 Create the GitHub OIDC Provider
 
 ```bash
 gcloud iam workload-identity-pools providers create-oidc "$PROVIDER_ID" \
@@ -218,15 +232,15 @@ gcloud iam workload-identity-pools providers create-oidc "$PROVIDER_ID" \
 
 ✅ This tells GCP how to trust GitHub’s OIDC tokens.
 
-#### 3.4 Create the Bootstrap Service Account (root of trust)
+<!-- #### 4.4 Create the Bootstrap Service Account (root of trust)
 
 ```bash
 gcloud iam service-accounts create "$BOOTSTRAP_SA_ID" \
   --project="$PROJECT_ID" \
   --display-name="Terraform Bootstrap Executor"
-```
+``` -->
 
-#### 3.5 Allow only this repo to impersonate the Bootstrap SA
+#### 4.4 Allow only this repo to impersonate the Bootstrap SA
 
 ```bash
 gcloud iam service-accounts add-iam-policy-binding "$BOOTSTRAP_SA_EMAIL" \
@@ -235,7 +249,7 @@ gcloud iam service-accounts add-iam-policy-binding "$BOOTSTRAP_SA_EMAIL" \
   --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/attribute.repository/$GITHUB_OWNER/$GITHUB_REPO"
 ```
 
-#### 3.6 Grant bootstrap SA the permissions Terraform needs
+#### 4.5 Grant bootstrap SA the permissions Terraform needs
 
 ```bash
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
@@ -265,19 +279,21 @@ This setup is performed **once per project**.
 
 ---
 
-### Step 4 — Configure GitHub Repository Secrets
+### Step 5 — Configure GitHub Repository Secrets
 
 Add the following secrets to the repository:
 
 | Secret Name                 | Description                            |  |
 | --------------------------- | -------------------------------------- |--|
-| `TF_TOKEN_APP_TERRAFORM_IO` | HCP Terraform API token                | ```projects/<PROJECT_NUMBER>/locations/global/workloadIdentityPools/github-pool/providers/github```|
-| `GCP_WIF_PROVIDER`          | Full resource name of the WIF provider |```tf-bootstrap-sa@gcc-etl-pipelines-06611-1.iam.gserviceaccount.com```                             |
-| `GCP_BOOTSTRAP_SA`          | Bootstrap service account email        |```tf-bootstrap-sa@gcc-etl-pipelines-06611-1.iam.gserviceaccount.com```|
+| `TF_TOKEN_APP_TERRAFORM_IO` | HCP Terraform API token                |`HCP Terraform API Token`|
+| `GCP_WIF_PROVIDER`          | Full resource name of the WIF provider |`projects/<PROJECT_NUMBER>/locations/global/workloadIdentityPools/subhamay-projects-github-pool/providers/github`|
+| `GCP_BOOTSTRAP_SA`          | Bootstrap service account email        |`tf-bootstrap-sa@<YOUR_PROJECT_ID>.iam.gserviceaccount.com`                                    |
+
+ > ###### Replace `subhamay-projects-github-pool` with your POOL_ID
  > ######  Replace <PROJECT_NUMBER> with the value printed in Step 3.0.
 ---
 
-### Step 5 - Setup HCP Terraform workspace in your organization
+### Step 6 - Setup HCP Terraform workspace in your organization
 
 In tf/backend.tf, ensure you have:
 
@@ -299,7 +315,7 @@ terraform {
 }
 ```
 
-### Step 6 — Run the Bootstrap Workflow
+### Step 7 — Run the Bootstrap Workflow
 
 The bootstrap Terraform is executed via a **manually triggered GitHub Actions workflow**.
 
