@@ -155,7 +155,8 @@ gcloud config set project <PROJECT_ID>
 ```
 
 ```bash
-PROJECT_ID="gcp-projects"
+# Replace xxxxx with the project id suffix
+PROJECT_ID="gcp-projects-xxxxx"
 
 gcloud iam service-accounts create tf-bootstrap-sa \
   --project="$PROJECT_ID" \
@@ -258,7 +259,7 @@ gcloud iam service-accounts add-iam-policy-binding "$BOOTSTRAP_SA_EMAIL" \
   --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/attribute.repository/$GITHUB_OWNER/$GITHUB_REPO"
 ```
 
-#### 4.5 Grant bootstrap SA the permissions Terraform needs
+<!-- #### 4.5 Grant bootstrap SA the permissions Terraform needs
 
 ```bash
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
@@ -273,7 +274,7 @@ gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --member="serviceAccount:$BOOTSTRAP_SA_EMAIL" \
   --role="roles/resourcemanager.projectIamAdmin"
 
-```
+``` -->
 
 ✅ Resulting Auth Flow
 ```mermaid
@@ -298,6 +299,19 @@ Add the following secrets to the repository:
 | `GCP_WIF_PROVIDER`          | Full resource name of the WIF provider |`projects/<PROJECT_NUMBER>/locations/global/workloadIdentityPools/subhamay-projects-github-pool/providers/github`|
 | `GCP_BOOTSTRAP_SA`          | Bootstrap service account email        |`tf-bootstrap-sa@<YOUR_PROJECT_ID>.iam.gserviceaccount.com`                                    |
 
+
+#### Use the following CLI command to generate `GCP_WIF_PROVIDER`
+
+```bash
+PROJECT_ID="YOUR_PROJECT_ID"
+POOL_ID="YOUR_POOL_ID"
+PROVIDER_ID="YOUR_PROVIDER_ID"
+
+PROJECT_NUMBER="$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')"
+
+echo "projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/${POOL_ID}/providers/${PROVIDER_ID}"
+
+```
  > ###### Replace `subhamay-projects-github-pool` with your POOL_ID
  > ######  Replace <PROJECT_NUMBER> with the value printed in Step 3.0.
 ---
