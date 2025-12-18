@@ -124,9 +124,12 @@ All other service accounts are created and managed by Terraform.
 ## Step-by-Step Bootstrap Setup
 
 ### Step 1 — Authenticate with Google Cloud
-Authorize the Google Cloud CLI:
 
+**Authorize the Google Cloud CLI:**
+
+```bash
 gcloud auth login --no-launch-browser
+```
 > ℹ️ Note Use --no-launch-browser when working in remote environments (Codespaces, SSH, Cloud Shell).
 
 > *_Common mistake (incorrect flag):_*
