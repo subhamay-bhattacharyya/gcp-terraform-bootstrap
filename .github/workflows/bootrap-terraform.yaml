@@ -44,8 +44,8 @@ jobs:
         with:
           terraform-dir: tf/
           backend-type: remote
-          tfc-organization: "subhamay-bhattacharyya-projects" ###${{ secrets.TFC_ORGANIZATION }}
-          tfc-workspace: "gcp-terraform-bootstrap" ###${{ secrets.TFC_WORKSPACE }}
+          tfc-organization: subhamay-bhattacharyya-projects ###${{ secrets.TFC_ORGANIZATION }}
+          tfc-workspace: gcp-terraform-bootstrap ###${{ secrets.TFC_WORKSPACE }}
           tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
           tf-vars-file: terraform.auto.tfvars.json
 
