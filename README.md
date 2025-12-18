@@ -227,8 +227,14 @@ gcloud iam workload-identity-pools providers create-oidc "$PROVIDER_ID" \
   --workload-identity-pool="$POOL_ID" \
   --display-name="GitHub Actions OIDC Provider" \
   --issuer-uri="https://token.actions.githubusercontent.com" \
-  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.ref=assertion.ref,attribute.repository_owner=assertion.repository_owner"
+  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.ref=assertion.ref,attribute.repository_owner=assertion.repository_owner" \
+  --attribute-condition="string(assertion.repository).startsWith('subhamay-bhattacharyya/')"
+
+
 ```
+
+> #### Replace `subhamay-bhattacharyya` with your GitHub organization you want to grant access to GitHub OIDC
+
 
 ✅ This tells GCP how to trust GitHub’s OIDC tokens.
 
