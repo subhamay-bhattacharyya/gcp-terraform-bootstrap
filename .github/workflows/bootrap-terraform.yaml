@@ -38,22 +38,6 @@ jobs:
         with:
           terraform-dir: tf/
           backend-type: remote
-name: Terraform Plan with HCP Terraform Cloud and GCP
-
-on:
-  workflow_dispatch:
-
-jobs:
-  terraform-plan:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - uses: subhamay-bhattacharyya-gha/tf-plan-action@main
-        with:
-          terraform-dir: infrastructure/
-          backend-type: remote
           tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
           gcp-wif-provider: ${{ secrets.GCP_WIF_PROVIDER }}
           gcp-service-account: ${{ secrets.GCP_BOOTSTRAP_SA }}
