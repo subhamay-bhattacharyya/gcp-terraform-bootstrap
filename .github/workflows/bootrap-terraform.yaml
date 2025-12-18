@@ -32,20 +32,30 @@ jobs:
     runs-on: ubuntu-latest
     needs: terraform-lint
     steps:
-      - name: Configure GCP Authentication (WIF)
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
-          service_account: ${{ secrets.GCP_BOOTSTRAP_SA }}
-
       - name: Terraform Plan
         id: plan
         uses: subhamay-bhattacharyya-gha/tf-plan-action@feature/GHA-0028-hcp-terraform-state-manag
         with:
           terraform-dir: tf/
           backend-type: remote
-          # tfc-organization: subhamay-bhattacharyya-projects ###${{ secrets.TFC_ORGANIZATION }}
-          # tfc-workspace: gcp-terraform-bootstrap ###${{ secrets.TFC_WORKSPACE }}
+name: Terraform Plan with HCP Terraform Cloud and GCP
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: subhamay-bhattacharyya-gha/tf-plan-action@main
+        with:
+          terraform-dir: infrastructure/
+          backend-type: remote
           tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+          gcp-wif-provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          gcp-service-account: ${{ secrets.GCP_BOOTSTRAP_SA }}
           tf-vars-file: terraform.auto.tfvars.json
 
