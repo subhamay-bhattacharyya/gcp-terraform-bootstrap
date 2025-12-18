@@ -1,113 +1,447 @@
-# terraform-docs
 
-[![Build Status](https://github.com/terraform-docs/terraform-docs/workflows/ci/badge.svg)](https://github.com/terraform-docs/terraform-docs/actions) [![GoDoc](https://pkg.go.dev/badge/github.com/terraform-docs/terraform-docs)](https://pkg.go.dev/github.com/terraform-docs/terraform-docs) [![Go Report Card](https://goreportcard.com/badge/github.com/terraform-docs/terraform-docs)](https://goreportcard.com/report/github.com/terraform-docs/terraform-docs) [![Codecov Report](https://codecov.io/gh/terraform-docs/terraform-docs/branch/master/graph/badge.svg)](https://codecov.io/gh/terraform-docs/terraform-docs) [![License](https://img.shields.io/github/license/terraform-docs/terraform-docs)](https://github.com/terraform-docs/terraform-docs/blob/master/LICENSE) [![Latest release](https://img.shields.io/github/v/release/terraform-docs/terraform-docs)](https://github.com/terraform-docs/terraform-docs/releases)
 
-![terraform-docs-teaser](./images/terraform-docs-teaser.png)
+# GCP Terraform Bootstrap
 
-## What is terraform-docs
+## Overview
 
-A utility to generate documentation from Terraform modules in various output formats.
+**gcp-terraform-bootstrap** provides a secure, repeatable foundation for bootstrapping **Google Cloud Platform (GCP)** projects using **Terraform**.
 
-## Documentation
+This repository is responsible for:
 
-- **Users**
-  - Read the [User Guide] to learn how to use terraform-docs
-  - Read the [Formats Guide] to learn about different output formats of terraform-docs
-  - Refer to [Config File Reference] for all the available configuration options
-- **Developers**
-  - Read [Contributing Guide] before submitting a pull request
+* Enabling required **GCP APIs**
+* Creating **project- and repository-specific service accounts**
+* Applying **project-level IAM bindings** using least-privilege principles
 
-Visit [our website] for all documentation.
+It uses **modern, keyless authentication** via **GitHub Actions OIDC + Workload Identity Federation (WIF)** and stores Terraform state in **HCP Terraform**.
 
-## Installation
+> This repository is intended to be executed **once per project (or infrequently)** and acts as the **platform bootstrap layer** for all downstream workload repositories.
 
-The latest version can be installed using `go get`:
+---
 
-```bash
-GO111MODULE="on" go get github.com/terraform-docs/terraform-docs@v0.12.0
+## Key Features
+
+* 🔐 **Keyless GCP authentication**
+
+  * GitHub Actions OIDC
+  * Google Cloud Workload Identity Federation
+* 🏗️ **Platform bootstrap pattern**
+
+  * API enablement
+  * Service account creation
+  * Centralized IAM management
+* ☁️ **HCP Terraform remote state**
+
+  * Secure state storage
+  * Run history and audit trail
+* 📦 **Data-driven Terraform**
+
+  * Minimal resource blocks
+  * Service accounts and roles defined via maps
+* 🔒 **Least privilege by design**
+
+  * Clear separation between bootstrap and workload responsibilities
+
+---
+
+## Repository Responsibilities
+
+### What this repository manages
+
+* `google_project_service` (API enablement)
+* Project and repository-specific service accounts
+* Project-level IAM bindings
+* Root-of-trust bootstrap execution
+
+### What this repository intentionally avoids
+
+* Creating workload resources (Cloud Composer, BigQuery, GCS, etc.)
+* Managing application-level IAM
+* Environment-specific infrastructure
+
+Those concerns belong in **separate workload repositories**.
+
+---
+
+## Repository Structure
+
+```text
+.
+├── bootstrap/
+│   ├── providers.tf
+│   ├── variables.tf
+│   ├── main.tf
+│   ├── outputs.tf
+│   └── terraform.auto.tfvars.json
+└── .github/
+    └── workflows/
+        └── bootstrap.yml
 ```
 
-**NOTE:** to download any version **before** `v0.9.1` (inclusive) you need to use to
-old module namespace (`segmentio`):
+---
+
+## Terraform State Management
+
+* State is stored in **HCP Terraform**
+* Organization: **Subhamay-Bhattacharyya-projects**
+* Workspace type: **CLI-driven workflow**
+
+Benefits:
+
+* Centralized state
+* State locking
+* Run history and audit logs
+* Team-based access control
+
+---
+
+## Bootstrap Execution Model
+
+### Why a Bootstrap Service Account Is Required
+
+Terraform requires credentials *before* it can create any resources.
+To avoid a circular dependency (“Terraform needs a service account to create service accounts”), this repository uses a **manually created bootstrap service account** as the **root of trust**.
+
+This bootstrap service account:
+
+* Exists **before Terraform runs**
+* Is used **only** to execute the bootstrap Terraform
+* Is authenticated **keylessly** via GitHub Actions OIDC
+
+All other service accounts are created and managed by Terraform.
+
+---
+
+## Identity Model
+
+| Identity                      | Created How     | Purpose                      |
+| ----------------------------- | --------------- | ---------------------------- |
+| Human user                    | Existing        | One-time setup only          |
+| **Bootstrap service account** | Manually (once) | Executes bootstrap Terraform |
+| Workload service accounts     | Terraform       | Used by downstream workloads |
+
+---
+
+## Step-by-Step Bootstrap Setup
+
+### Step 1 — Authenticate with Google Cloud
+Authorize the Google Cloud CLI:
+
+gcloud auth login --no-launch-browser
+> ℹ️ Note Use --no-launch-browser when working in remote environments (Codespaces, SSH, Cloud Shell).
+
+> *_Common mistake (incorrect flag):_*
+
+`gcloud auth login --no-launch-bro`
+
+✔️ Correct flag:
+
+`--no-launch-browser`
+
+(Optional) Verify authentication:
 
 ```bash
-# only for v0.9.1 and before
-GO111MODULE="on" go get github.com/segmentio/terraform-docs@v0.9.1
+gcloud auth list
 ```
 
-**NOTE:** please use the latest go to do this, we use 1.16.0 but ideally go 1.15 or greater.
 
-This will put `terraform-docs` in `$(go env GOPATH)/bin`. If you encounter the error
-`terraform-docs: command not found` after installation then you may need to either add
-that directory to your `$PATH` as shown [here] or do a manual installation by cloning
-the repo and run `make build` from the repository which will put `terraform-docs` in:
+### Step 2 — Create the Bootstrap Service Account (One Time)
+
+> Set the active project:
+```bash
+gcloud config set project <PROJECT_ID>
+```
 
 ```bash
-$(go env GOPATH)/src/github.com/terraform-docs/terraform-docs/bin/$(uname | tr '[:upper:]' '[:lower:]')-amd64/terraform-docs
+PROJECT_ID="gcp-projects"
+
+gcloud iam service-accounts create tf-bootstrap-sa \
+  --project="$PROJECT_ID" \
+  --display-name="Terraform Bootstrap Executor"
 ```
 
-Stable binaries are also available on the [releases] page. To install, download the
-binary for your platform from "Assets" and place this into your `$PATH`:
+---
+
+### Step 3 — Grant Minimal Permissions to the Bootstrap Service Account
 
 ```bash
-curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.0/terraform-docs-v0.12.0-$(uname)-amd64.tar.gz
-tar -xzf terraform-docs.tar.gz
-chmod +x terraform-docs
-mv terraform-docs /some-dir-in-your-PATH/terraform-docs
+BOOTSTRAP_SA="tf-bootstrap-sa@${PROJECT_ID}.iam.gserviceaccount.com"
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$BOOTSTRAP_SA" \
+  --role="roles/serviceusage.serviceUsageAdmin"
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$BOOTSTRAP_SA" \
+  --role="roles/iam.serviceAccountAdmin"
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$BOOTSTRAP_SA" \
+  --role="roles/resourcemanager.projectIamAdmin"
 ```
 
-**NOTE:** Windows releases are in `ZIP` format.
+These permissions allow the bootstrap to:
 
-If you are a Mac OS X user, you can use [Homebrew]:
+* Enable APIs
+* Create service accounts
+* Bind IAM roles
+
+---
+
+### Step 4 — Configure GitHub Actions OIDC with Workload Identity Federation
+
+Configure **Workload Identity Federation (WIF)** so that **only this repository** can impersonate the bootstrap service account.
+
+> **Actions to be performed in sequence**
+
+#### 4.1 Set variables (adjust once)
 
 ```bash
-brew install terraform-docs
+PROJECT_ID="<YOUR_PROJECT_ID>"
+PROJECT_NUMBER="$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')"
+
+POOL_ID="subhamay-projects-github-pool"
+PROVIDER_ID="github"
+
+GITHUB_OWNER="subhamay-bhattacharyya"
+GITHUB_REPO="gcp-terraform-bootstrap"
+
+BOOTSTRAP_SA_ID="tf-bootstrap-sa"
+BOOTSTRAP_SA_EMAIL="${BOOTSTRAP_SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
 ```
 
-or
+#### 4.2 Create the Workload Identity Pool (one time)
 
 ```bash
-brew install terraform-docs/tap/terraform-docs
+gcloud iam workload-identity-pools create "$POOL_ID" \
+  --project="$PROJECT_ID" \
+  --location="global" \
+  --display-name="GCP Projects GitHub Actions Pool"
 ```
 
-Windows users can install using [Scoop]:
+#### 4.3 Create the GitHub OIDC Provider
 
 ```bash
-scoop bucket add terraform-docs https://github.com/terraform-docs/scoop-bucket
-scoop install terraform-docs
+gcloud iam workload-identity-pools providers create-oidc "$PROVIDER_ID" \
+  --project="$PROJECT_ID" \
+  --location="global" \
+  --workload-identity-pool="$POOL_ID" \
+  --display-name="GitHub Actions OIDC Provider" \
+  --issuer-uri="https://token.actions.githubusercontent.com" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.ref=assertion.ref,attribute.repository_owner=assertion.repository_owner"
 ```
 
-or [Chocolatey]:
+✅ This tells GCP how to trust GitHub’s OIDC tokens.
+
+<!-- #### 4.4 Create the Bootstrap Service Account (root of trust)
 
 ```bash
-choco install terraform-docs
-```
+gcloud iam service-accounts create "$BOOTSTRAP_SA_ID" \
+  --project="$PROJECT_ID" \
+  --display-name="Terraform Bootstrap Executor"
+``` -->
 
-Alternatively you also can run `terraform-docs` as a container:
+#### 4.4 Allow only this repo to impersonate the Bootstrap SA
 
 ```bash
-docker run quay.io/terraform-docs/terraform-docs:0.12.0
+gcloud iam service-accounts add-iam-policy-binding "$BOOTSTRAP_SA_EMAIL" \
+  --project="$PROJECT_ID" \
+  --role="roles/iam.workloadIdentityUser" \
+  --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/attribute.repository/$GITHUB_OWNER/$GITHUB_REPO"
 ```
 
-**NOTE:** Docker tag `latest` refers to _latest_ stable released version and `edge`
-refers to HEAD of `master` at any given point in time.
+#### 4.5 Grant bootstrap SA the permissions Terraform needs
 
-## Community
+```bash
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$BOOTSTRAP_SA_EMAIL" \
+  --role="roles/serviceusage.serviceUsageAdmin"
 
-- Discuss terraform-docs on [Slack]
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$BOOTSTRAP_SA_EMAIL" \
+  --role="roles/iam.serviceAccountAdmin"
+
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$BOOTSTRAP_SA_EMAIL" \
+  --role="roles/resourcemanager.projectIamAdmin"
+
+```
+
+✅ Resulting Auth Flow
+```mermaid
+flowchart TD
+    GH[GitHub Actions] -->|OIDC Token| WIF[Workload Identity Federation]
+    WIF -->|Short-lived Credentials| SA[tf-bootstrap-sa]
+    SA -->|Authenticated Execution| TF[Terraform]
+    TF -->|Remote State & Runs| HCP[HCP Terraform]
+```
+
+This setup is performed **once per project**.
+
+---
+
+### Step 5 — Configure GitHub Repository Secrets
+
+Add the following secrets to the repository:
+
+| Secret Name                 | Description                            |  |
+| --------------------------- | -------------------------------------- |--|
+| `TF_TOKEN_APP_TERRAFORM_IO` | HCP Terraform API token                |`HCP Terraform API Token`|
+| `GCP_WIF_PROVIDER`          | Full resource name of the WIF provider |`projects/<PROJECT_NUMBER>/locations/global/workloadIdentityPools/subhamay-projects-github-pool/providers/github`|
+| `GCP_BOOTSTRAP_SA`          | Bootstrap service account email        |`tf-bootstrap-sa@<YOUR_PROJECT_ID>.iam.gserviceaccount.com`                                    |
+
+ > ###### Replace `subhamay-projects-github-pool` with your POOL_ID
+ > ######  Replace <PROJECT_NUMBER> with the value printed in Step 3.0.
+---
+
+### Step 6 - Setup HCP Terraform workspace in your organization
+
+In tf/backend.tf, ensure you have:
+
+1. organization = `Your HCL Terraform Organization`
+2. workspace name exactly matches what you created in HCP Terraform
+3. workspace is CLI-driven (local execution)
+
+> #### Sample backend configuration
+```hcl
+terraform {
+  cloud {
+
+    organization = "subhamay-bhattacharyya-projects"
+
+    workspaces {
+      name = "gcp-terraform-bootstrap"
+    }
+  }
+}
+```
+
+### Step 7 — Run the Bootstrap Workflow
+
+The bootstrap Terraform is executed via a **manually triggered GitHub Actions workflow**.
+
+1. Go to **Actions → bootstrap**
+2. Run with `plan`
+3. Review output
+4. Re-run with `apply`
+
+Terraform will:
+
+* Enable required GCP APIs
+* Create project/repository-specific service accounts
+* Apply IAM bindings
+
+---
+
+## Authentication Flow (End-to-End)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Dev as Developer
+    participant GH as GitHub Actions
+    participant OIDC as GitHub OIDC Provider
+    participant WIF as GCP Workload Identity Federation
+    participant BSA as Bootstrap Service Account
+    participant TF as Terraform
+    participant HCP as HCP Terraform
+    participant GCP as Google Cloud Project
+
+    Dev->>GH: Trigger bootstrap workflow
+    GH->>OIDC: Request OIDC token
+    OIDC->>GH: Issue short-lived token
+    GH->>WIF: Exchange OIDC token
+    WIF->>BSA: Issue short-lived SA credentials
+    GH->>TF: Run terraform plan/apply
+    TF->>HCP: Read/write remote state
+    TF->>GCP: Enable APIs
+    TF->>GCP: Create service accounts
+    TF->>GCP: Apply IAM bindings
+```
+
+---
+
+## Security Considerations
+
+* ✅ No long-lived credentials
+* ✅ No service account JSON keys
+* ✅ Short-lived, auto-rotated credentials
+* ✅ Repository-scoped trust boundaries
+* ✅ Least-privilege IAM by default
+
+### Explicitly avoided
+
+* ❌ `Owner` / `Editor` roles
+* ❌ Shared service accounts across repos
+* ❌ Manual IAM changes outside Terraform
+* ❌ Provider-level impersonation in GitHub Actions
+
+---
+
+## Troubleshooting
+
+### 403 when enabling APIs
+
+Ensure bootstrap SA has:
+
+* `roles/serviceusage.serviceUsageAdmin`
+
+### Cannot create service accounts
+
+Ensure bootstrap SA has:
+
+* `roles/iam.serviceAccountAdmin`
+
+### IAM policy modification errors
+
+Ensure bootstrap SA has:
+
+* `roles/resourcemanager.projectIamAdmin`
+
+### OIDC authentication failures
+
+Verify:
+
+* Correct repo name in WIF binding
+* Correct `GCP_WIF_PROVIDER` secret
+* `permissions: id-token: write` in workflow
+
+### Terraform cannot connect to HCP Terraform
+
+Verify:
+
+* `TF_TOKEN_APP_TERRAFORM_IO` secret
+* Workspace exists and is **CLI-driven**
+* Token belongs to org `Subhamay-Bhattacharyya-projects`
+
+---
+
+## After Bootstrap Completes
+
+Once bootstrap has successfully run:
+
+* All required service accounts exist
+* All required APIs are enabled
+* Workload repositories can be created safely
+
+From this point forward:
+
+* All infrastructure changes are automated
+* No further manual IAM or API setup is required
+
+---
+
+## When to Re-Run Bootstrap
+
+* Adding new APIs
+* Creating new workload service accounts
+* Modifying project-level IAM
+* Initial project provisioning
+
+Not required for day-to-day workload changes.
+
+---
 
 ## License
 
-MIT License - Copyright (c) 2021 The terraform-docs Authors.
+MIT (or your preferred license)
 
-[User Guide]: ./docs/user-guide/introduction.md
-[Formats Guide]: ./docs/reference/terraform-docs.md
-[Config File Reference]: ./docs/user-guide/configuration.md
-[Contributing Guide]: CONTRIBUTING.md
-[our website]: https://terraform-docs.io/
-[here]: https://golang.org/doc/code.html#GOPATH
-[releases]: https://github.com/terraform-docs/terraform-docs/releases
-[Homebrew]: https://brew.sh
-[Scoop]: https://scoop.sh/
-[Chocolatey]: https://www.chocolatey.org
-[Slack]: https://slack.terraform-docs.io/
