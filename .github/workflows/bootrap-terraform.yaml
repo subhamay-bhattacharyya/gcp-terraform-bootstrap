@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Terraform Plan
         id: plan
-        uses: subhamay-bhattacharyya-gha/tf-plan-action@v1.1.0
+        uses: subhamay-bhattacharyya-gha/tf-plan-action@v1.2.0
         with:
           terraform-dir: tf/
           backend-type: remote
