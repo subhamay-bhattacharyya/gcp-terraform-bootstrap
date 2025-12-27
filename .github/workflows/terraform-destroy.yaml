@@ -1,29 +1,21 @@
 name: Destroy Service Accounts
 run-name: >
-  Destroy SA ${{ github.event.inputs['cloud-provider'] }} stack by ${{ github.actor }} on ${{ github.ref_name }}
+  Destroy Service Account stack by ${{ github.actor }} on ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
-    # inputs:
-    #   cloud-provider:
-    #     description: "Target cloud provider"
-    #     required: true
-    #     type: choice
-    #     options:
-    #       - aws
-    #       - gcp
-    #       - azure
 
 permissions:
-  id-token: write      # needed for OIDC
-  contents: read       # needed for checkout / Terraform
+  id-token: write      
+  contents: read      
 
 jobs:
   terraform-destroy:
     name: Destroy
     uses: subhamay-bhattacharyya-gha/terraform-destroy-wf/.github/workflows/terraform-destroy.yaml@feature/GHA-0028-add-multi-cloud-support
     with:
-      cloud-provider: gcp ##${{ github.event.inputs['cloud-provider'] }}
+      cloud-provider: gcp 
+      terraform-dir: tf
       backend-type: remote
     secrets:
       tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
