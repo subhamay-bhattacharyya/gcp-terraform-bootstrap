@@ -1,41 +1,31 @@
-name: bootstrap terraform
+name: Bootstrap Terraform Deployment
+run-name: >
+  Enable Google API and create service account to - by ${{ github.actor }} on ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
-    inputs:
-      action:
-        type: choice
-        required: true
-        default: plan
-        options: [plan, apply]
 
 permissions:
-  contents: read
-  id-token: write
+  id-token: write      
+  contents: read       
+
+# concurrency:
+#   group: deploy-${{ github.ref }}
+#   cancel-in-progress: false
 
 jobs:
-  terraform:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}/tf
-    env:
-      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+  terraform-deploy:
+    name: Deploy
+    uses: subhamay-bhattacharyya-gha/tf-deploy-multi-reusable-wf/.github/workflows/terraform-deploy.yaml@feature/GHA-0011-add-tflint-in-the-workflo
+    with:
+      cloud-provider: gcp
+      tflint-ver: ${{ vars.TF_LINT_VER }}
+      backend-type: remote
+      terraform-dir: tf
+      tf-vars-file: terraform.auto.tfvars.json
+    secrets:
+      tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+      gcp-wif-provider: ${{ secrets.GCP_WIF_PROVIDER }}
+      gcp-service-account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
-    steps:
-      - uses: actions/checkout@v6
 
-      - id: auth
-        uses: google-github-actions/auth@v3
-        with:
-          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
-          service_account: ${{ secrets.GCP_BOOTSTRAP_SA }}
-
-      - uses: hashicorp/setup-terraform@v3
-
-      - run: terraform init
-      - run: terraform validate
-      - run: terraform plan
-
-      - if: ${{ github.event.inputs.action == 'apply' }}
-        run: terraform apply -auto-approve

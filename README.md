@@ -1,4 +1,6 @@
 
+![GitHub Action](https://img.shields.io/badge/GitHub-Action-blue?logo=github)&nbsp;![Release](https://github.com/subhamay-bhattacharyya/gcp-terraform-bootstrap/actions/workflows/release.yaml/badge.svg)&nbsp;![Commit Activity](https://img.shields.io/github/commit-activity/t/subhamay-bhattacharyya/gcp-terraform-bootstrap)&nbsp;![Terraform](https://img.shields.io/badge/Terraform-623CE4?style=flat&logo=terraform&logoColor=white)
+&nbsp;![Last Commit](https://img.shields.io/github/last-commit/subhamay-bhattacharyya/gcp-terraform-bootstrap)&nbsp;![Release Date](https://img.shields.io/github/release-date/subhamay-bhattacharyya/gcp-terraform-bootstrap)&nbsp;![Repo Size](https://img.shields.io/github/repo-size/subhamay-bhattacharyya/gcp-terraform-bootstrap)&nbsp;![File Count](https://img.shields.io/github/directory-file-count/subhamay-bhattacharyya/gcp-terraform-bootstrap)&nbsp;![Issues](https://img.shields.io/github/issues/subhamay-bhattacharyya/gcp-terraform-bootstrap)&nbsp;![Top Language](https://img.shields.io/github/languages/top/subhamay-bhattacharyya/gcp-terraform-bootstrap)&nbsp;![Custom Endpoint](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bsubhamay/87600f0df6b2c924857262c34438e619/raw/gcp-terraform-bootstrap.json?)
 
 # GCP Terraform Bootstrap
 
@@ -124,9 +126,12 @@ All other service accounts are created and managed by Terraform.
 ## Step-by-Step Bootstrap Setup
 
 ### Step 1 — Authenticate with Google Cloud
-Authorize the Google Cloud CLI:
 
+**Authorize the Google Cloud CLI:**
+
+```bash
 gcloud auth login --no-launch-browser
+```
 > ℹ️ Note Use --no-launch-browser when working in remote environments (Codespaces, SSH, Cloud Shell).
 
 > *_Common mistake (incorrect flag):_*
@@ -152,7 +157,8 @@ gcloud config set project <PROJECT_ID>
 ```
 
 ```bash
-PROJECT_ID="gcp-projects"
+# Replace xxxxx with the project id suffix
+PROJECT_ID="gcp-projects-xxxxx"
 
 gcloud iam service-accounts create tf-bootstrap-sa \
   --project="$PROJECT_ID" \
@@ -227,8 +233,14 @@ gcloud iam workload-identity-pools providers create-oidc "$PROVIDER_ID" \
   --workload-identity-pool="$POOL_ID" \
   --display-name="GitHub Actions OIDC Provider" \
   --issuer-uri="https://token.actions.githubusercontent.com" \
-  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.ref=assertion.ref,attribute.repository_owner=assertion.repository_owner"
+  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.ref=assertion.ref,attribute.repository_owner=assertion.repository_owner" \
+  --attribute-condition="string(assertion.repository).startsWith('subhamay-bhattacharyya/')"
+
+
 ```
+
+> #### Replace `subhamay-bhattacharyya` with your GitHub organization you want to grant access to GitHub OIDC
+
 
 ✅ This tells GCP how to trust GitHub’s OIDC tokens.
 
@@ -249,7 +261,7 @@ gcloud iam service-accounts add-iam-policy-binding "$BOOTSTRAP_SA_EMAIL" \
   --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/attribute.repository/$GITHUB_OWNER/$GITHUB_REPO"
 ```
 
-#### 4.5 Grant bootstrap SA the permissions Terraform needs
+<!-- #### 4.5 Grant bootstrap SA the permissions Terraform needs
 
 ```bash
 gcloud projects add-iam-policy-binding "$PROJECT_ID" \
@@ -264,7 +276,7 @@ gcloud projects add-iam-policy-binding "$PROJECT_ID" \
   --member="serviceAccount:$BOOTSTRAP_SA_EMAIL" \
   --role="roles/resourcemanager.projectIamAdmin"
 
-```
+``` -->
 
 ✅ Resulting Auth Flow
 ```mermaid
@@ -289,6 +301,19 @@ Add the following secrets to the repository:
 | `GCP_WIF_PROVIDER`          | Full resource name of the WIF provider |`projects/<PROJECT_NUMBER>/locations/global/workloadIdentityPools/subhamay-projects-github-pool/providers/github`|
 | `GCP_BOOTSTRAP_SA`          | Bootstrap service account email        |`tf-bootstrap-sa@<YOUR_PROJECT_ID>.iam.gserviceaccount.com`                                    |
 
+
+#### Use the following CLI command to generate `GCP_WIF_PROVIDER`
+
+```bash
+PROJECT_ID="YOUR_PROJECT_ID"
+POOL_ID="YOUR_POOL_ID"
+PROVIDER_ID="YOUR_PROVIDER_ID"
+
+PROJECT_NUMBER="$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')"
+
+echo "projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/${POOL_ID}/providers/${PROVIDER_ID}"
+
+```
  > ###### Replace `subhamay-projects-github-pool` with your POOL_ID
  > ######  Replace <PROJECT_NUMBER> with the value printed in Step 3.0.
 ---

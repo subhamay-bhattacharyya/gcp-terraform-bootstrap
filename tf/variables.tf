@@ -2,6 +2,7 @@
 
 variable "gcp_project_id" { type = string }
 variable "gcp_region" { type = string }
+variable "gcp_credentials_file_path" { type = string }
 
 variable "required_apis" {
   type = set(string)
