@@ -1,64 +1,43 @@
-name: Bootstrap Terraform
-run-name: Bootstrap Terraform run by ${{ github.actor }}
+name: Deploy Cloud Resume Challenge
+run-name: >
+  Deploy to ${{ github.event.inputs['cloud-provider'] }} by ${{ github.actor }} on ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
     # inputs:
-    #   action:
-    #     type: choice
+    #   cloud-provider:
+    #     description: "Target cloud provider"
     #     required: true
-    #     default: plan
-    #     options: [plan, apply]
+    #     type: choice
+    #     options:
+    #       - aws
+    #       - gcp
+    #       - azure
 
 permissions:
-  contents: read
-  id-token: write
+  id-token: write      # needed for OIDC
+  contents: read       # needed for checkout / Terraform
+
+# concurrency:
+#   group: deploy-${{ github.ref }}
+#   cancel-in-progress: false
 
 jobs:
-
-  terraform-lint:
-    name: 📋 Terraform Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run TFLint
-        uses: subhamay-bhattacharyya-gha/tf-lint-action@main
-        with:
-          tflint-ver: ${{ vars.TF_LINT_VER }}
-          use-cache: "true"
-          tflint-format: "compact"
-
-  terraform-validate:
-    name: ⚙️ Terraform Validate
-    runs-on: ubuntu-latest
-    needs: terraform-lint
-    steps:
-      - name: Terraform Validate
-        id: validate
-        run: echo "Terraform Validate step is currently commented out."
-        # uses: subhamay-bhattacharyya-gha/tf-validate-action@v1.2.0
-        # with:
-        #   terraform-dir: tf/
-        #   backend-type: remote
-        #   tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
-        #   cloud-provider: gcp
-        #   gcp-wif-provider: ${{ secrets.GCP_WIF_PROVIDER }}
-        #   gcp-service-account: ${{ secrets.GCP_BOOTSTRAP_SA }}
-        #   tf-vars-file: terraform.auto.tfvars.json
-
-  terraform-plan:
-    name: ⚙️ Terraform Plan
-    runs-on: ubuntu-latest
-    needs: terraform-validate
-    steps:
-      - name: Terraform Plan
-        id: plan
-        uses: subhamay-bhattacharyya-gha/tf-plan-action@v1.2.0
-        with:
-          terraform-dir: tf/
-          backend-type: remote
-          tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
-          cloud-provider: gcp
-          gcp-wif-provider: ${{ secrets.GCP_WIF_PROVIDER }}
-          gcp-service-account: ${{ secrets.GCP_BOOTSTRAP_SA }}
-          tf-vars-file: terraform.auto.tfvars.json
+  terraform-deploy:
+    name: Deploy
+    uses: subhamay-bhattacharyya-gha/tf-deploy-multi-reusable-wf/.github/workflows/terraform-deploy.yaml@feature/GHA-0011-add-tflint-in-the-workflo
+    with:
+      cloud-provider: gcp ###${{ github.event.inputs['cloud-provider'] }}
+      tflint-ver: ${{ vars.TF_LINT_VER }}
+      backend-type: remote
+      # aws-region: ${{ vars.AWS_REGION }}
+      tf-vars-file: terraform.tfvars
+    secrets:
+      tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+      # aws-role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+      gcp-wif-provider: ${{ secrets.GCP_WIF_PROVIDER }}
+      gcp-service-account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      # azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      # azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      # azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
