@@ -16,7 +16,7 @@ permissions:
 jobs:
   terraform-deploy:
     name: Deploy
-    uses: subhamay-bhattacharyya-gha/tf-deploy-multi-reusable-wf/.github/workflows/terraform-deploy.yaml@feature/GHA-0011-add-tflint-in-the-workflo
+    uses: subhamay-bhattacharyya-gha/tf-deploy-multi-reusable-wf/.github/workflows/terraform-deploy.yaml@main
     with:
       cloud-provider: gcp
       tflint-ver: ${{ vars.TF_LINT_VER }}
