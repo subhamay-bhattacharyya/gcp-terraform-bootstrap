@@ -14,13 +14,13 @@ terraform {
 }
 
 provider "google" {
-  project     = var.gcp_project_id
-  region      = var.gcp_region
+  project = var.gcp_project_id
+  region  = var.gcp_region
   #credentials = file(var.gcp_credentials_file_path)
 }
 
 provider "google-beta" {
-  project     = var.gcp_project_id
-  region      = var.gcp_region
+  project = var.gcp_project_id
+  region  = var.gcp_region
   #credentials = file(var.gcp_credentials_file_path)
 }
