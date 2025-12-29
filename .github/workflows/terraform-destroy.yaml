@@ -12,7 +12,7 @@ permissions:
 jobs:
   terraform-destroy:
     name: Destroy
-    uses: subhamay-bhattacharyya-gha/terraform-destroy-wf/.github/workflows/terraform-destroy.yaml@feature/GHA-0028-add-multi-cloud-support
+    uses: subhamay-bhattacharyya-gha/terraform-destroy-wf/.github/workflows/terraform-destroy.yaml@main
     with:
       cloud-provider: gcp 
       terraform-dir: tf
