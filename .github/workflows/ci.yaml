@@ -35,7 +35,7 @@ permissions:
 jobs:
   terraform-ci:
     name: CI
-    uses: github.com/subhamay-bhattacharyya-gha/tf-ci-reusable-wf/.github/workflows/ci.yaml@feature/GHA-0027-simplify-the-ci-build-wor
+    uses: subhamay-bhattacharyya-gha/tf-ci-reusable-wf/.github/workflows/ci.yaml@feature/GHA-0027-simplify-the-ci-build-wor
     with:
       cloud-provider: gcp
       tflint-ver: ${{ vars.TF_LINT_VER }}
