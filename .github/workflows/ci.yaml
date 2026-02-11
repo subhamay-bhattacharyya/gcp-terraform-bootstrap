@@ -16,6 +16,7 @@ on:
     paths:
       - infra/gcp/tf/**
       - .github/workflows/ci.yaml   #### remove later
+  workflow_dispatch:
 
 
 permissions:
