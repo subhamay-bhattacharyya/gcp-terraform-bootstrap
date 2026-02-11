@@ -42,7 +42,7 @@ jobs:
       tflint-ver: ${{ vars.TF_LINT_VER }}
       backend-type: remote
       # tf-config-path: infra/gcp/tf
-      tf-vars-file: terraform.tfvars
+      tf-vars-file: terraform.auto.tfvars.json
     secrets:
       tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
       gcp-wif-provider: ${{ secrets.GCP_WIF_PROVIDER }}
