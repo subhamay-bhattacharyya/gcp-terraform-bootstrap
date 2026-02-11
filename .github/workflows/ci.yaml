@@ -36,12 +36,12 @@ jobs:
   terraform-ci-gcp:
     name: CI - GCP
     needs: start-job
-    uses: subhamay-bhattacharyya-gha/tf-ci-reusable-wf/.github/workflows/ci.yaml@main
+    uses: subhamay-bhattacharyya-gha/tf-ci-reusable-wf/.github/workflows/ci.yaml@feature/GHA-0037-add-platform-based-multi
     with:
       cloud-provider: gcp
       tflint-ver: ${{ vars.TF_LINT_VER }}
       backend-type: remote
-      terraform-dir: infra/gcp/tf
+      # tf-config-path: infra/gcp/tf
       tf-vars-file: terraform.tfvars
     secrets:
       tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
