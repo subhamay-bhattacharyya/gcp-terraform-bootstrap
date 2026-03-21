@@ -8,15 +8,13 @@ on:
       - 'feature/**'
       - 'bug/**'
     paths:
-      - infra/aws/tf/**
-      - infra/gcp/**
-      - infra/azure/tf/**
+      - infra/gcp/tf/**
       - input-json/**
+      - .github/workflows/ci.yaml   #### remove later
   pull_request:
     branches: [ main ]
     paths:
       - infra/gcp/**
-      - .github/workflows/ci.yaml   #### remove later
   workflow_dispatch:
 
 
