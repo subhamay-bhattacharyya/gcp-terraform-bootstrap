@@ -1,35 +1,36 @@
-# --- root/main.tf ---
+# --- root/outputs.tf ---
 
-
-output "repo_service_accounts" {
-  value = {
-    for repo, _ in var.repos : repo => {
-      email = google_service_account.repo_sa[repo].email
-      name  = google_service_account.repo_sa[repo].name
-    }
-  }
+output "folder_ids" {
+  description = "Map of folder keys to their numeric GCP folder IDs."
+  value       = module.gcp_project_hierarchy.folder_ids
 }
 
+output "folder_names" {
+  description = "Map of folder keys to their full GCP resource names (folders/<id> format)."
+  value       = module.gcp_project_hierarchy.folder_names
+}
 
+output "project_ids" {
+  description = "Map of project keys to their GCP project IDs."
+  value       = module.gcp_project_hierarchy.project_ids
+}
 
-# output "project_iam_bindings" {
-#   value = local.project_iam_bindings
+output "project_numbers" {
+  description = "Map of project keys to their GCP project numbers."
+  value       = module.gcp_project_hierarchy.project_numbers
+}
+
+output "enabled_services" {
+  description = "Map of 'project_key/service' to the enabled service name."
+  value       = module.gcp_project_hierarchy.enabled_services
+}
+
+# output "alert_policy_ids" {
+#   description = "Map of project key to list of monitoring alert policy resource names for that project."
+#   value       = module.gcp_project_hierarchy.alert_policy_ids
 # }
 
-# output "enabled_apis" {
-#   value = [for s in google_project_service.this : s.service]
-# }
-
-# output "service_account_emails" {
-#   value = { for sa_key, sa in google_service_account.this : sa_key => sa.email }
-# }
-
-# output "project_iam_memberships" {
-#   value = {
-#     for binding_key, binding in google_project_iam_member.this :
-#     binding_key => {
-#       role   = binding.role
-#       member = binding.member
-#     }
-#   }
-# }
+output "notification_channel_ids" {
+  description = "Map of project key to email notification channel resource name, for projects that have one configured."
+  value       = module.gcp_project_hierarchy.notification_channel_ids
+}

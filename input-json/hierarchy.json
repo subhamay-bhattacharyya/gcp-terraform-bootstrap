@@ -1,0 +1,50 @@
+{                                                                                                                                    
+    "folders": {  
+      "000-gce-practice": {
+        "display_name": "fld-gcp-certification",                                                                                       
+        "parent_type": "organization"
+      },                                                                                                                               
+      "01-compute-engine": {
+        "display_name": "fld-01-compute-engine",                                                                                       
+        "parent_type": "folder",                                                                                                       
+        "parent_key": "000-gce-practice"                                                                                               
+      },                                                                                                                               
+      "02-google-cloud-serverless": {                                                                                                  
+        "display_name": "fld-02-google-cloud-serverless",
+        "parent_type": "folder",                                                                                                       
+        "parent_key": "000-gce-practice"
+      }                                                                                                                                
+    },            
+    "projects": {
+      "01-compute-engine": {
+        "name": "GCE VM Instance Basics",                                                                                              
+        "project_id": "prj-gce-vm-instance-basics",
+        "folder_key": "01-compute-engine",                                                                                             
+        "billing_account": "015898-2F7763-830474",
+        "notification_email": "subhamay.aws@gmail.com",                                                                                
+        "alert_thresholds": {                                                                                                          
+          "billing_amount": 100.0,                                                                                                     
+          "threshold_rules": [                                                                                                         
+            { "threshold_percent": 0.25, "spend_basis": "CURRENT_SPEND" },
+            { "threshold_percent": 0.50, "spend_basis": "CURRENT_SPEND" },                                                             
+            { "threshold_percent": 1.00, "spend_basis": "CURRENT_SPEND" },
+            { "threshold_percent": 1.00, "spend_basis": "FORECASTED_SPEND" }                                                           
+          ]       
+        },                                                                                                                             
+        "services": [
+          "compute.googleapis.com",                                                                                                    
+          "iam.googleapis.com",
+          "cloudresourcemanager.googleapis.com",                                                                                       
+          "monitoring.googleapis.com"
+        ],
+        "labels": {
+          "env": "devl",                                                                                                               
+          "team": "platform",
+          "managed-by": "terraform",                                                                                                   
+          "gcp-service": "compute-engine"                                                                                              
+        },
+        "enable_alerts": true,                                                                                                         
+        "enable_service_account": true
+      }
+    }                                                                                                                                  
+  }

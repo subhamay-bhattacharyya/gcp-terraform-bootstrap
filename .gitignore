@@ -87,3 +87,7 @@ LICENSE.txt
 aws/*
 install-summary.json
 .terraform.*
+
+# GCP credentials
+credentials/*.json
+!credentials/.gitkeep

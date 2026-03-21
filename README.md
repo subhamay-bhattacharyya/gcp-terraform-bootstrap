@@ -75,15 +75,12 @@ Those concerns belong in **downstream workload repositories**.
 .
 ├── infra/
 │   └── gcp/
-│       └── tf/
-│           ├── backends.tf
-│           ├── data.tf
-│           ├── locals.tf
-│           ├── main.tf
-│           ├── outputs.tf
-│           ├── providers.tf
-│           ├── terraform.auto.tfvars.json
-│           └── variables.tf
+│       ├── backends.tf
+│       ├── main.tf
+│       ├── outputs.tf
+│       ├── providers.tf
+│       ├── terraform.auto.tfvars.json
+│       └── variables.tf
 └── .github/
     ├── dependabot.yaml
     └── workflows/

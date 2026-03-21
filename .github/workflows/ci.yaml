@@ -9,12 +9,13 @@ on:
       - 'bug/**'
     paths:
       - infra/aws/tf/**
-      - infra/gcp/tf/**
+      - infra/gcp/**
       - infra/azure/tf/**
+      - input-json/**
   pull_request:
     branches: [ main ]
     paths:
-      - infra/gcp/tf/**
+      - infra/gcp/**
       - .github/workflows/ci.yaml   #### remove later
   workflow_dispatch:
 
@@ -36,7 +37,7 @@ jobs:
   terraform-ci-gcp:
     name: CI - GCP
     needs: start-job
-    uses: subhamay-bhattacharyya-gha/tf-ci-reusable-wf/.github/workflows/ci.yaml@feature/GHA-0037-add-platform-based-multi
+    uses: subhamay-bhattacharyya-gha/tf-ci-reusable-wf/.github/workflows/ci.yaml@main
     with:
       cloud-provider: gcp
       tflint-ver: ${{ vars.TF_LINT_VER }}
