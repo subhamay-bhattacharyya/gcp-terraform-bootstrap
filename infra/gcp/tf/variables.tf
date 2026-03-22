@@ -9,16 +9,16 @@ variable "gcp_credentials_file_path" {
 }
 
 variable "organization_id" {
-  description = "GCP Organization ID."
+  description = "GCP Organization ID"
   type        = string
 }
 
 variable "billing_account" {
-  description = "GCP Billing Account ID."
+  description = "GCP Billing Account ID"
   type        = string
 }
 
 variable "hierarchy_config_file" {
-  description = "Path to the hierarchy JSON configuration file."
+  description = "Path to the hierarchy JSON configuration file"
   type        = string
 }
