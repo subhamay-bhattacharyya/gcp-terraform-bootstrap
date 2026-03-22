@@ -42,3 +42,23 @@ resource "google_service_account_iam_member" "wif_binding_org2" {
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/attribute.repository_owner/${var.github_orgs[1]}"
 }
+
+# Grant the service account org-level roles required to create folders and projects
+resource "google_organization_iam_member" "sa_folder_creator" {
+  org_id = var.organization_id
+  role   = "roles/resourcemanager.folderCreator"
+  member = "serviceAccount:${var.service_account_email}"
+}
+
+resource "google_organization_iam_member" "sa_project_creator" {
+  org_id = var.organization_id
+  role   = "roles/resourcemanager.projectCreator"
+  member = "serviceAccount:${var.service_account_email}"
+}
+
+# Grant billing.user on the billing account so the SA can associate billing with new projects
+resource "google_billing_account_iam_member" "sa_billing_user" {
+  billing_account_id = var.billing_account
+  role               = "roles/billing.user"
+  member             = "serviceAccount:${var.service_account_email}"
+}

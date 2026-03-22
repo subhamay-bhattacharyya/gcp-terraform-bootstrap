@@ -10,11 +10,6 @@ variable "gcp_region" {
   type        = string
 }
 
-variable "gcp_credentials_file_path" {
-  description = "Path to the GCP service account JSON credentials file"
-  type        = string
-}
-
 variable "wif_pool_id" {
   description = "ID for the Workload Identity Pool"
   type        = string
@@ -34,5 +29,15 @@ variable "github_orgs" {
 
 variable "service_account_email" {
   description = "Email of the GCP service account that GitHub Actions will impersonate"
+  type        = string
+}
+
+variable "organization_id" {
+  description = "GCP Organization ID where IAM roles will be granted to the service account"
+  type        = string
+}
+
+variable "billing_account" {
+  description = "GCP Billing Account ID — service account will be granted roles/billing.user on this account"
   type        = string
 }
