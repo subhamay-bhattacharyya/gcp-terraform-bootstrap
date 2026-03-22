@@ -1,5 +1,14 @@
 ## [unreleased]
 
+### 🚀 Features
+
+- Add organization-level IAM roles for service account and update variables
+## [Rel-005-20260322022147] - 2026-03-22
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
+
 ### ⚙️ Miscellaneous Tasks
 
 - Update variable descriptions for consistency and fix secret references in workflow
