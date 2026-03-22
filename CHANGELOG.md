@@ -2,6 +2,15 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- Update variable descriptions for consistency and fix secret references in workflow
+## [Rel-004-20260322013337] - 2026-03-22
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
+
+### ⚙️ Miscellaneous Tasks
+
 - Refactor CI/CD workflows and consolidate Terraform infrastructure
 - Update CI workflow paths and Terraform directory configuration
 - Add manual workflow dispatch trigger to CI pipeline
