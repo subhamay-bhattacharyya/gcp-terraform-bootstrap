@@ -1,44 +1,9 @@
 # --- root/main.tf ---
 
-locals {
-  # Flatten role bindings into a stable map for for_each
-  # Key format: "<sa_key>::<role>"
-  project_iam_bindings = {
-    for b in flatten([
-      for sa_key, sa in var.service_accounts : [
-        for role in sa.project_roles : {
-          key    = "${sa_key}::${role}"
-          sa_key = sa_key
-          role   = role
-        }
-      ]
-    ]) : b.key => b
-  }
-}
+module "gcp_project_hierarchy" {
+  source = "github.com/subhamay-bhattacharyya-tf/terraform-google-project-hierarchy?ref=feature/TFMOD-0002-initial-release-terraform"
 
-# 1) Enable required APIs
-resource "google_project_service" "this" {
-  for_each           = var.required_apis
-  project            = var.gcp_project_id
-  service            = each.value
-  disable_on_destroy = false
-}
-
-# 2) Create service accounts (repo/project-specific)
-resource "google_service_account" "this" {
-  for_each     = var.service_accounts
-  project      = var.gcp_project_id
-  account_id   = each.value.account_id
-  display_name = each.value.display_name
-
-  depends_on = [google_project_service.this]
-}
-
-# 3) Grant project-level roles to each service account
-resource "google_project_iam_member" "this" {
-  for_each = local.project_iam_bindings
-
-  project = var.gcp_project_id
-  role    = each.value.role
-  member  = "serviceAccount:${google_service_account.this[each.value.sa_key].email}"
+  organization_id         = var.organization_id
+  default_billing_account = var.billing_account
+  hierarchy_config        = jsondecode(file("${path.module}/${var.hierarchy_config_file}"))
 }
