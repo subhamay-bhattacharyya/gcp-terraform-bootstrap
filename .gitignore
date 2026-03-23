@@ -91,3 +91,5 @@ install-summary.json
 # GCP credentials
 credentials/*.json
 !credentials/.gitkeep
+
+GCP_ORG_SETUP.md
