@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- Update CI workflow and hierarchy JSON structure
+## [Rel-008-20260323023243] - 2026-03-23
+
+### 🐛 Bug Fixes
+
 - Update project ID for GCE VM Instance in hierarchy.json
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-007-20260323012130] - 2026-03-23
 
 ### 🐛 Bug Fixes

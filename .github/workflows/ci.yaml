@@ -10,7 +10,6 @@ on:
     paths:
       - infra/gcp/tf/**
       - input-json/**
-      - .github/workflows/ci.yaml   #### remove later
   pull_request:
     branches: [ main ]
     paths:
