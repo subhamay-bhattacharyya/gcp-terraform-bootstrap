@@ -1,5 +1,22 @@
 ## [unreleased]
 
+### 🚀 Features
+
+- Add organization-level IAM roles for service account and update variables
+
+### 🐛 Bug Fixes
+
+- Correct formatting and ensure newline at end of file in Terraform configuration
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
+## [Rel-005-20260322022147] - 2026-03-22
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
+
 ### ⚙️ Miscellaneous Tasks
 
 - Update variable descriptions for consistency and fix secret references in workflow

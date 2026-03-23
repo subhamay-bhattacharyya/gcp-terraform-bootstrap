@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write      
-  contents: read       
+  id-token: write
+  contents: read
 
 # concurrency:
 #   group: deploy-${{ github.ref }}
@@ -26,5 +26,3 @@ jobs:
       tfc-token: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
       gcp-wif-provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
       gcp-service-account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-
-
