@@ -1,5 +1,10 @@
 ## [unreleased]
 
+### 🐛 Bug Fixes
+
+- Remove deprecated GCP bootstrap Terraform files and update project ID in configuration
+## [Rel-006-20260323001610] - 2026-03-23
+
 ### 🚀 Features
 
 - Add organization-level IAM roles for service account and update variables
@@ -10,6 +15,7 @@
 
 ### 📚 Documentation
 
+- Update CHANGELOG.md [skip ci]
 - Update CHANGELOG.md [skip ci]
 ## [Rel-005-20260322022147] - 2026-03-22
 
