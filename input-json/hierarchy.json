@@ -1,50 +1,902 @@
-{                                                                                                                                    
-    "folders": {  
-      "000-gce-practice": {
-        "display_name": "fld-gcp-certification",                                                                                       
-        "parent_type": "organization"
-      },                                                                                                                               
-      "01-compute-engine": {
-        "display_name": "fld-01-compute-engine",                                                                                       
-        "parent_type": "folder",                                                                                                       
-        "parent_key": "000-gce-practice"                                                                                               
-      },                                                                                                                               
-      "02-google-cloud-serverless": {                                                                                                  
-        "display_name": "fld-02-google-cloud-serverless",
-        "parent_type": "folder",                                                                                                       
-        "parent_key": "000-gce-practice"
-      }                                                                                                                                
-    },            
-    "projects": {
-      "01-compute-engine": {
-        "name": "GCE VM Instance Basics",                                                                                              
-        "project_id": "prj-gce-vm-instance-basics-16748",
-        "folder_key": "01-compute-engine",                                                                                             
-        "billing_account": "015898-2F7763-830474",
-        "notification_email": "subhamay.aws@gmail.com",                                                                                
-        "alert_thresholds": {                                                                                                          
-          "billing_amount": 100.0,                                                                                                     
-          "threshold_rules": [                                                                                                         
-            { "threshold_percent": 0.25, "spend_basis": "CURRENT_SPEND" },
-            { "threshold_percent": 0.50, "spend_basis": "CURRENT_SPEND" },                                                             
-            { "threshold_percent": 1.00, "spend_basis": "CURRENT_SPEND" },
-            { "threshold_percent": 1.00, "spend_basis": "FORECASTED_SPEND" }                                                           
-          ]       
-        },                                                                                                                             
-        "services": [
-          "compute.googleapis.com",                                                                                                    
-          "iam.googleapis.com",
-          "cloudresourcemanager.googleapis.com",                                                                                       
-          "monitoring.googleapis.com"
-        ],
-        "labels": {
-          "env": "devl",                                                                                                               
-          "team": "platform",
-          "managed-by": "terraform",                                                                                                   
-          "gcp-service": "compute-engine"                                                                                              
-        },
-        "enable_alerts": true,                                                                                                         
-        "enable_service_account": true
-      }
-    }                                                                                                                                  
+{
+  "folders": {
+    "000-gce-practice": {
+      "display_name": "fld-gcp-certification",
+      "parent_type": "organization"
+    },
+    "01-compute-engine": {
+      "display_name": "fld-01-compute-engine",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "03-cloud-run": {
+      "display_name": "fld-03-cloud-run",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "04-cloud-function": {
+      "display_name": "fld-04-cloud-function",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "05-virtual-private-cloud": {
+      "display_name": "fld-05-virtual-private-cloud",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "06-cloud-domains": {
+      "display_name": "fld-06-cloud-domains",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "07-cloud-load-balancing": {
+      "display_name": "fld-07-cloud-load-balancing",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "08-artifactory-registry": {
+      "display_name": "fld-08-artifactory-registry",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "09-cloud-iam": {
+      "display_name": "fld-09-cloud-iam",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "10-cloud-sql": {
+      "display_name": "fld-10-cloud-sql",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "11-dataflow": {
+      "display_name": "fld-11-dataflow",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "12-cloud-spanner": {
+      "display_name": "fld-12-cloud-spanner",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "13-google-allowdb": {
+      "display_name": "fld-13-google-allowdb",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "14-cloud-firestore": {
+      "display_name": "fld-14-cloud-firestore",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "15-cloud-bigtable": {
+      "display_name": "fld-15-cloud-bigtable",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "16-cloud-dataproc": {
+      "display_name": "fld-16-cloud-dataproc",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "17-cloud-storage": {
+      "display_name": "fld-17-cloud-storage",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "18-cloud-monitoring": {
+      "display_name": "fld-18-cloud-monitoring",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "19-cloud-trace": {
+      "display_name": "fld-19-cloud-trace",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "02-kms": {
+      "display_name": "fld-02-kms",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    }
+  },
+  "projects": {
+    "01-compute-engine": {
+      "name": "GCE VM Instance Basics",
+      "project_id": "prj-01-compute-engine-16748",
+      "folder_key": "01-compute-engine",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 200.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "compute.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "monitoring.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "compute-engine"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "03-cloud-run": {
+      "name": "Google Cloud Run",
+      "project_id": "prj-03-cloud-run-16748",
+      "folder_key": "03-cloud-run",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 150.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.2,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "run.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "artifactregistry.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-run"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "04-cloud-function": {
+      "name": "Cloud Functions",
+      "project_id": "prj-04-cloud-function-16748",
+      "folder_key": "04-cloud-function",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 100.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "cloudfunctions.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "pubsub.googleapis.com",
+        "storage.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-function"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "05-virtual-private-cloud": {
+      "name": "Virtual Private Cloud",
+      "project_id": "prj-05-vpc-16748",
+      "folder_key": "05-virtual-private-cloud",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "learn-gcp@subhamay.org",
+      "alert_thresholds": {
+        "billing_amount": 175.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "compute.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "dns.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "virtual-private-cloud"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "06-cloud-domains": {
+      "name": "Cloud Domains",
+      "project_id": "prj-06-cloud-domains-16748",
+      "folder_key": "06-cloud-domains",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 50.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "domains.googleapis.com",
+        "dns.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-domains"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "07-cloud-load-balancing": {
+      "name": "Cloud Load Balancing",
+      "project_id": "prj-07-cloud-load-balanc-16748",
+      "folder_key": "07-cloud-load-balancing",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 200.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.2,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "compute.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "monitoring.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-load-balancing"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "08-artifactory-registry": {
+      "name": "Artifact Registry",
+      "project_id": "prj-08-artifactory-regis-16748",
+      "folder_key": "08-artifactory-registry",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 100.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          },
+          {
+            "threshold_percent": 1.2,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "artifactregistry.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "containerscanning.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "artifactory-registry"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "09-cloud-iam": {
+      "name": "Cloud IAM",
+      "project_id": "prj-09-cloud-iam-16748",
+      "folder_key": "09-cloud-iam",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamoyb@yahoo.com",
+      "alert_thresholds": {
+        "billing_amount": 75.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "iamcredentials.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-iam"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "10-cloud-sql": {
+      "name": "Cloud SQL",
+      "project_id": "prj-10-cloud-sql-16748",
+      "folder_key": "10-cloud-sql",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "learn-gcp@subhamay.org",
+      "alert_thresholds": {
+        "billing_amount": 250.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "sqladmin.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "storage.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-sql"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "11-dataflow": {
+      "name": "Cloud Dataflow",
+      "project_id": "prj-11-dataflow-16748",
+      "folder_key": "11-dataflow",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamoyb@yahoo.com",
+      "alert_thresholds": {
+        "billing_amount": 300.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "dataflow.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "storage.googleapis.com",
+        "pubsub.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "dataflow"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "12-cloud-spanner": {
+      "name": "Cloud Spanner",
+      "project_id": "prj-12-cloud-spanner-16748",
+      "folder_key": "12-cloud-spanner",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamoyb@yahoo.com",
+      "alert_thresholds": {
+        "billing_amount": 500.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.2,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "spanner.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-spanner"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "13-google-allowdb": {
+      "name": "Google AlloyDB",
+      "project_id": "prj-13-google-allowdb-16748",
+      "folder_key": "13-google-allowdb",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "learn-gcp@subhamay.org",
+      "alert_thresholds": {
+        "billing_amount": 400.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          },
+          {
+            "threshold_percent": 1.2,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "alloydb.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "servicenetworking.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "google-allowdb"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "14-cloud-firestore": {
+      "name": "Cloud Firestore",
+      "project_id": "prj-14-cloud-firestore-16748",
+      "folder_key": "14-cloud-firestore",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 150.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "firestore.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-firestore"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "15-cloud-bigtable": {
+      "name": "Cloud Bigtable",
+      "project_id": "prj-15-cloud-bigtable-16748",
+      "folder_key": "15-cloud-bigtable",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "subhamoyb@yahoo.com",
+      "alert_thresholds": {
+        "billing_amount": 350.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "bigtable.googleapis.com",
+        "bigtableadmin.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-bigtable"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "16-cloud-dataproc": {
+      "name": "Cloud Dataproc",
+      "project_id": "prj-16-cloud-dataproc-16748",
+      "folder_key": "16-cloud-dataproc",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamoyb@yahoo.com",
+      "alert_thresholds": {
+        "billing_amount": 300.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.2,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "dataproc.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "storage.googleapis.com",
+        "compute.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-dataproc"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "17-cloud-storage": {
+      "name": "Cloud Storage",
+      "project_id": "prj-17-cloud-storage-16748",
+      "folder_key": "17-cloud-storage",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 200.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "storage.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-storage"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "18-cloud-monitoring": {
+      "name": "Cloud Monitoring",
+      "project_id": "prj-18-cloud-monitoring-16748",
+      "folder_key": "18-cloud-monitoring",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 100.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "monitoring.googleapis.com",
+        "logging.googleapis.com",
+        "cloudtrace.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-monitoring"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "19-cloud-trace": {
+      "name": "Cloud Trace",
+      "project_id": "prj-19-cloud-trace-16748",
+      "folder_key": "19-cloud-trace",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "learn-gcp@subhamay.org",
+      "alert_thresholds": {
+        "billing_amount": 75.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          },
+          {
+            "threshold_percent": 1.2,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "cloudtrace.googleapis.com",
+        "monitoring.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-trace"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    },
+    "02-kms": {
+      "name": "Cloud Key Management Service",
+      "project_id": "prj-02-kms-16748",
+      "folder_key": "02-kms",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 50.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "cloudkms.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "kms"
+      },
+      "enable_alerts": true,
+      "enable_service_account": true
+    }
   }
+}
