@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- Update project ID for GCE VM Instance in hierarchy.json
+## [Rel-007-20260323012130] - 2026-03-23
+
+### 🐛 Bug Fixes
+
 - Remove deprecated GCP bootstrap Terraform files and update project ID in configuration
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-006-20260323001610] - 2026-03-23
 
 ### 🚀 Features
