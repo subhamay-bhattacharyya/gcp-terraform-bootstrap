@@ -18,7 +18,7 @@
     "projects": {
       "01-compute-engine": {
         "name": "GCE VM Instance Basics",                                                                                              
-        "project_id": "prj-gce-vm-instance-basics",
+        "project_id": "prj-gce-vm-instance-basics-16748",
         "folder_key": "01-compute-engine",                                                                                             
         "billing_account": "015898-2F7763-830474",
         "notification_email": "subhamay.aws@gmail.com",                                                                                
