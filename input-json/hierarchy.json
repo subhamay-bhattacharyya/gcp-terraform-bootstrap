@@ -59,8 +59,8 @@
       "parent_type": "folder",
       "parent_key": "000-gce-practice"
     },
-    "13-google-allowdb": {
-      "display_name": "fld-13-google-allowdb",
+    "13-alloydb": {
+      "display_name": "fld-13-alloydb",
       "parent_type": "folder",
       "parent_key": "000-gce-practice"
     },
@@ -563,10 +563,10 @@
       "enable_alerts": true,
       "enable_service_account": true
     },
-    "13-google-allowdb": {
+    "13-alloydb": {
       "name": "Google AlloyDB",
-      "project_id": "prj-13-google-allowdb-16748",
-      "folder_key": "13-google-allowdb",
+      "project_id": "prj-13-alloydb-16748",
+      "folder_key": "13-alloydb",
       "billing_account": "015898-2F7763-830474",
       "notification_email": "learn-gcp@subhamay.org",
       "alert_thresholds": {
@@ -600,7 +600,7 @@
         "env": "devl",
         "team": "platform",
         "managed-by": "terraform",
-        "gcp-service": "google-allowdb"
+        "gcp-service": "alloydb"
       },
       "enable_alerts": true,
       "enable_service_account": true

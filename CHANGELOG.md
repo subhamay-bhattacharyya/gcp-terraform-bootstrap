@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- Rename Google AlloyDB project and folder keys in hierarchy.json
+## [Rel-009-20260323151140] - 2026-03-23
+
+### 🐛 Bug Fixes
+
 - Update CI workflow and hierarchy JSON structure
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-008-20260323023243] - 2026-03-23
 
 ### 🐛 Bug Fixes
