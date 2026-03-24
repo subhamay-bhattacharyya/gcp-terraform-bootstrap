@@ -123,7 +123,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -211,7 +211,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -254,7 +254,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -292,7 +292,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -372,7 +372,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           },
           {
@@ -414,7 +414,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -459,7 +459,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -501,7 +501,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -581,7 +581,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           },
           {
@@ -631,7 +631,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -672,7 +672,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -753,7 +753,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -798,7 +798,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
@@ -837,7 +837,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           },
           {
@@ -879,7 +879,7 @@
             "spend_basis": "CURRENT_SPEND"
           },
           {
-            "threshold_percent": 1.0,
+            "threshold_percent": 1.1,
             "spend_basis": "FORECASTED_SPEND"
           }
         ]
