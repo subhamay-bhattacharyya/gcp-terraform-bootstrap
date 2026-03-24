@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- Update threshold_percent values for billing budgets
+## [Rel-010-20260323154043] - 2026-03-23
+
+### 🐛 Bug Fixes
+
 - Rename Google AlloyDB project and folder keys in hierarchy.json
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-009-20260323151140] - 2026-03-23
 
 ### 🐛 Bug Fixes
