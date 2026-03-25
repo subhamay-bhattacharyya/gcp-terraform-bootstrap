@@ -1,8 +1,18 @@
 ## [unreleased]
 
+### 🐛 Bug Fixes
+
+- Update service account source reference and output values
+- Update source reference for gcp_project_hierarchy module to specific version
+## [Rel-012-20260325154000] - 2026-03-25
+
 ### 🚀 Features
 
 - Enhance service account management and update hierarchy configuration
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-011-20260324021840] - 2026-03-24
 
 ### 🐛 Bug Fixes
