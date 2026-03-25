@@ -37,5 +37,5 @@ output "notification_channel_ids" {
 
 output "service_account_emails" {
   description = "Map of project keys to their service account emails, for projects that have a service account configured."
-  value       = { for k, sa in google_service_account.this : k => sa.email }
+  value       = module.gcp_project_hierarchy.service_account_emails
 }
