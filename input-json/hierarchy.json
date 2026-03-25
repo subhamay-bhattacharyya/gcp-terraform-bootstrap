@@ -141,7 +141,61 @@
         "gcp-service": "compute-engine"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-01-compute-engine",
+        "display_name": "Terraform deployer for compute engine project",
+        "project_roles": [
+          "roles/compute.admin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
+    },
+    "02-kms": {
+      "name": "Cloud Key Management Service",
+      "project_id": "prj-02-kms-16748",
+      "folder_key": "02-kms",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 50.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.1,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "cloudkms.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "kms"
+      },
+      "enable_alerts": true,
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-02-kms",
+        "display_name": "Terraform deployer for kms project",
+        "project_roles": [
+          "roles/cloudkms.admin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "03-cloud-run": {
       "name": "Google Cloud Run",
@@ -183,7 +237,17 @@
         "gcp-service": "cloud-run"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-03-cloud-run",
+        "display_name": "Terraform deployer for cloud run project",
+        "project_roles": [
+          "roles/run.admin",
+          "roles/artifactregistry.admin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "04-cloud-function": {
       "name": "Cloud Functions",
@@ -230,7 +294,18 @@
         "gcp-service": "cloud-function"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-04-cloud-function",
+        "display_name": "Terraform deployer for cloud functions project",
+        "project_roles": [
+          "roles/cloudfunctions.admin",
+          "roles/pubsub.admin",
+          "roles/storage.admin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "05-virtual-private-cloud": {
       "name": "Virtual Private Cloud",
@@ -272,7 +347,16 @@
         "gcp-service": "virtual-private-cloud"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-05-vpc",
+        "display_name": "Terraform deployer for vpc project",
+        "project_roles": [
+          "roles/compute.networkAdmin",
+          "roles/compute.securityAdmin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "06-cloud-domains": {
       "name": "Cloud Domains",
@@ -310,7 +394,16 @@
         "gcp-service": "cloud-domains"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-06-cloud-domains",
+        "display_name": "Terraform deployer for cloud domains project",
+        "project_roles": [
+          "roles/domains.admin",
+          "roles/dns.admin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "07-cloud-load-balancing": {
       "name": "Cloud Load Balancing",
@@ -352,7 +445,16 @@
         "gcp-service": "cloud-load-balancing"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-07-cloud-load-balancing",
+        "display_name": "Terraform deployer for load balancing project",
+        "project_roles": [
+          "roles/compute.loadBalancerAdmin",
+          "roles/compute.networkAdmin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "08-artifactory-registry": {
       "name": "Artifact Registry",
@@ -394,7 +496,15 @@
         "gcp-service": "artifactory-registry"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-08-artifactory-registry",
+        "display_name": "Terraform deployer for artifact registry project",
+        "project_roles": [
+          "roles/artifactregistry.admin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "09-cloud-iam": {
       "name": "Cloud IAM",
@@ -431,7 +541,16 @@
         "gcp-service": "cloud-iam"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-09-cloud-iam",
+        "display_name": "Terraform deployer for cloud iam project",
+        "project_roles": [
+          "roles/iam.serviceAccountAdmin",
+          "roles/resourcemanager.projectIamAdmin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "10-cloud-sql": {
       "name": "Cloud SQL",
@@ -477,7 +596,16 @@
         "gcp-service": "cloud-sql"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-10-cloud-sql",
+        "display_name": "Terraform deployer for cloud sql project",
+        "project_roles": [
+          "roles/cloudsql.admin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "11-dataflow": {
       "name": "Cloud Dataflow",
@@ -520,7 +648,18 @@
         "gcp-service": "dataflow"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-11-dataflow",
+        "display_name": "Terraform deployer for dataflow project",
+        "project_roles": [
+          "roles/dataflow.admin",
+          "roles/storage.admin",
+          "roles/pubsub.admin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "12-cloud-spanner": {
       "name": "Cloud Spanner",
@@ -561,7 +700,15 @@
         "gcp-service": "cloud-spanner"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-12-cloud-spanner",
+        "display_name": "Terraform deployer for cloud spanner project",
+        "project_roles": [
+          "roles/spanner.admin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "13-alloydb": {
       "name": "Google AlloyDB",
@@ -603,7 +750,17 @@
         "gcp-service": "alloydb"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-13-alloydb",
+        "display_name": "Terraform deployer for alloydb project",
+        "project_roles": [
+          "roles/alloydb.admin",
+          "roles/compute.networkAdmin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "14-cloud-firestore": {
       "name": "Cloud Firestore",
@@ -648,7 +805,15 @@
         "gcp-service": "cloud-firestore"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-14-cloud-firestore",
+        "display_name": "Terraform deployer for firestore project",
+        "project_roles": [
+          "roles/datastore.owner",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "15-cloud-bigtable": {
       "name": "Cloud Bigtable",
@@ -690,7 +855,15 @@
         "gcp-service": "cloud-bigtable"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-15-cloud-bigtable",
+        "display_name": "Terraform deployer for bigtable project",
+        "project_roles": [
+          "roles/bigtable.admin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "16-cloud-dataproc": {
       "name": "Cloud Dataproc",
@@ -733,7 +906,18 @@
         "gcp-service": "cloud-dataproc"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-16-cloud-dataproc",
+        "display_name": "Terraform deployer for dataproc project",
+        "project_roles": [
+          "roles/dataproc.admin",
+          "roles/storage.admin",
+          "roles/compute.networkAdmin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "17-cloud-storage": {
       "name": "Cloud Storage",
@@ -770,7 +954,15 @@
         "gcp-service": "cloud-storage"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-17-cloud-storage",
+        "display_name": "Terraform deployer for cloud storage project",
+        "project_roles": [
+          "roles/storage.admin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "18-cloud-monitoring": {
       "name": "Cloud Monitoring",
@@ -817,7 +1009,17 @@
         "gcp-service": "cloud-monitoring"
       },
       "enable_alerts": true,
-      "enable_service_account": true
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-18-cloud-monitoring",
+        "display_name": "Terraform deployer for monitoring project",
+        "project_roles": [
+          "roles/monitoring.admin",
+          "roles/logging.admin",
+          "roles/cloudtrace.admin",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
     },
     "19-cloud-trace": {
       "name": "Cloud Trace",
@@ -859,44 +1061,16 @@
         "gcp-service": "cloud-trace"
       },
       "enable_alerts": true,
-      "enable_service_account": true
-    },
-    "02-kms": {
-      "name": "Cloud Key Management Service",
-      "project_id": "prj-02-kms-16748",
-      "folder_key": "02-kms",
-      "billing_account": "010DEB-AF68D5-B8B7FE",
-      "notification_email": "subhamay.aws@gmail.com",
-      "alert_thresholds": {
-        "billing_amount": 50.0,
-        "threshold_rules": [
-          {
-            "threshold_percent": 0.5,
-            "spend_basis": "CURRENT_SPEND"
-          },
-          {
-            "threshold_percent": 1.0,
-            "spend_basis": "CURRENT_SPEND"
-          },
-          {
-            "threshold_percent": 1.1,
-            "spend_basis": "FORECASTED_SPEND"
-          }
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-19-cloud-trace",
+        "display_name": "Terraform deployer for trace project",
+        "project_roles": [
+          "roles/cloudtrace.admin",
+          "roles/monitoring.admin",
+          "roles/serviceusage.serviceUsageAdmin"
         ]
-      },
-      "services": [
-        "cloudkms.googleapis.com",
-        "iam.googleapis.com",
-        "cloudresourcemanager.googleapis.com"
-      ],
-      "labels": {
-        "env": "devl",
-        "team": "platform",
-        "managed-by": "terraform",
-        "gcp-service": "kms"
-      },
-      "enable_alerts": true,
-      "enable_service_account": true
+      }
     }
   }
 }
