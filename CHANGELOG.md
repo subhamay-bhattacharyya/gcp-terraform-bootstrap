@@ -1,8 +1,17 @@
 ## [unreleased]
 
+### 🚀 Features
+
+- Enhance service account management and update hierarchy configuration
+## [Rel-011-20260324021840] - 2026-03-24
+
 ### 🐛 Bug Fixes
 
 - Update threshold_percent values for billing budgets
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-010-20260323154043] - 2026-03-23
 
 ### 🐛 Bug Fixes
