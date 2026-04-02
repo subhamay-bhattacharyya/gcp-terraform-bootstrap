@@ -9,6 +9,11 @@
       "parent_type": "folder",
       "parent_key": "000-gce-practice"
     },
+    "02-kms": {
+      "display_name": "fld-02-kms",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
     "03-cloud-run": {
       "display_name": "fld-03-cloud-run",
       "parent_type": "folder",
@@ -94,8 +99,8 @@
       "parent_type": "folder",
       "parent_key": "000-gce-practice"
     },
-    "02-kms": {
-      "display_name": "fld-02-kms",
+    "20-pubsub": {
+      "display_name": "fld-20-pubsub",
       "parent_type": "folder",
       "parent_key": "000-gce-practice"
     }
@@ -945,7 +950,8 @@
       "services": [
         "storage.googleapis.com",
         "iam.googleapis.com",
-        "cloudresourcemanager.googleapis.com"
+        "cloudresourcemanager.googleapis.com",
+        "cloudkms.googleapis.com"
       ],
       "labels": {
         "env": "devl",
@@ -960,6 +966,7 @@
         "display_name": "Terraform deployer for cloud storage project",
         "project_roles": [
           "roles/storage.admin",
+          "roles/cloudkms.admin",
           "roles/serviceusage.serviceUsageAdmin"
         ]
       }
@@ -1069,6 +1076,59 @@
           "roles/cloudtrace.admin",
           "roles/monitoring.admin",
           "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
+    },
+    "20-pubsub": {
+      "name": "Cloud PubSub Topics and Subscriptions",
+      "project_id": "prj-20-pubsub-16748",
+      "folder_key": "20-pubsub",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 150.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.1,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "pubsub.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "monitoring.googleapis.com",
+        "cloudkms.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "pubsub"
+      },
+      "enable_alerts": true,
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-20-pubsub",
+        "display_name": "Terraform deployer for pubsub project",
+        "project_roles": [
+          "roles/pubsub.admin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin",
+          "roles/cloudkms.admin"
         ]
       }
     }
