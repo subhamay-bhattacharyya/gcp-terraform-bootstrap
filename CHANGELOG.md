@@ -1,9 +1,22 @@
 ## [unreleased]
 
+### 🚀 Features
+
+- Add GCP project configuration for Cloud PubSub and update KMS roles
+
+### 🐛 Bug Fixes
+
+- Correct name for Cloud PubSub Topics and Subscriptions
+## [Rel-013-20260325162733] - 2026-03-25
+
 ### 🐛 Bug Fixes
 
 - Update service account source reference and output values
 - Update source reference for gcp_project_hierarchy module to specific version
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-012-20260325154000] - 2026-03-25
 
 ### 🚀 Features
