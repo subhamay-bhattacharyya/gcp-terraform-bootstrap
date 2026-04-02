@@ -1080,7 +1080,7 @@
       }
     },
     "20-pubsub": {
-      "name": "Cloud PubSub Topics and Subscriptions",
+      "name": "Cloud PubSub Topics and Subs",
       "project_id": "prj-20-pubsub-16748",
       "folder_key": "20-pubsub",
       "billing_account": "010DEB-AF68D5-B8B7FE",
