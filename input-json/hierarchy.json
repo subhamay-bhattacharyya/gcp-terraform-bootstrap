@@ -103,6 +103,26 @@
       "display_name": "fld-20-pubsub",
       "parent_type": "folder",
       "parent_key": "000-gce-practice"
+    },
+    "21-serverless-pipeline": {
+      "display_name": "fld-21-serverless-pipeline",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "22-bigquery": {
+      "display_name": "fld-22-bigquery",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "23-app-engine": {
+      "display_name": "fld-23-app-engine",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
+    },
+    "24-cloud-datastore": {
+      "display_name": "fld-24-cloud-datastore",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
     }
   },
   "projects": {
@@ -658,11 +678,12 @@
         "account_id": "sa-11-dataflow",
         "display_name": "Terraform deployer for dataflow project",
         "project_roles": [
-          "roles/dataflow.admin",
-          "roles/storage.admin",
-          "roles/pubsub.admin",
+          "roles/dataflow.worker",
+          "roles/storage.objectAdmin",
+          "roles/pubsub.subscriber",
+          "roles/pubsub.publisher",
           "roles/iam.serviceAccountUser",
-          "roles/serviceusage.serviceUsageAdmin"
+          "roles/serviceusage.serviceUsageConsumer"
         ]
       }
     },
@@ -815,8 +836,9 @@
         "account_id": "sa-14-cloud-firestore",
         "display_name": "Terraform deployer for firestore project",
         "project_roles": [
-          "roles/datastore.owner",
-          "roles/serviceusage.serviceUsageAdmin"
+          "roles/file.editor",
+          "roles/compute.networkUser",
+          "roles/serviceusage.serviceUsageConsumer"
         ]
       }
     },
@@ -1129,6 +1151,257 @@
           "roles/iam.serviceAccountUser",
           "roles/serviceusage.serviceUsageAdmin",
           "roles/cloudkms.admin"
+        ]
+      }
+    },
+    "21-serverless-pipeline": {
+      "name": "Serverless Pipeline",
+      "project_id": "prj-21-serverless-pipelin-16748",
+      "folder_key": "21-serverless-pipeline",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 200.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.1,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "cloudfunctions.googleapis.com",
+        "run.googleapis.com",
+        "artifactregistry.googleapis.com",
+        "pubsub.googleapis.com",
+        "storage.googleapis.com",
+        "eventarc.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "monitoring.googleapis.com",
+        "logging.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "serverless-pipeline"
+      },
+      "enable_alerts": true,
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-21-serverless-pipeline",
+        "display_name": "Terraform deployer for serverless pipeline project",
+        "project_roles": [
+          "roles/cloudfunctions.admin",
+          "roles/run.admin",
+          "roles/artifactregistry.admin",
+          "roles/pubsub.admin",
+          "roles/storage.admin",
+          "roles/eventarc.admin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
+    },
+    "22-bigquery": {
+      "name": "BigQuery Data Warehouse",
+      "project_id": "prj-22-bigquery-16748",
+      "folder_key": "22-bigquery",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 300.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.1,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "bigquery.googleapis.com",
+        "bigquerystorage.googleapis.com",
+        "bigquerydatatransfer.googleapis.com",
+        "storage.googleapis.com",
+        "cloudkms.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "monitoring.googleapis.com",
+        "logging.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "bigquery"
+      },
+      "enable_alerts": true,
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-22-bigquery",
+        "display_name": "Terraform deployer for bigquery project",
+        "project_roles": [
+          "roles/bigquery.admin",
+          "roles/bigquery.dataEditor",
+          "roles/bigquery.jobUser",
+          "roles/storage.admin",
+          "roles/cloudkms.cryptoKeyEncrypterDecrypter",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
+    },
+    "23-app-engine": {
+      "name": "Google App Engine",
+      "project_id": "prj-23-app-engine-16748",
+      "folder_key": "23-app-engine",
+      "billing_account": "015898-2F7763-830474",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 150.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.1,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "appengine.googleapis.com",
+        "cloudbuild.googleapis.com",
+        "artifactregistry.googleapis.com",
+        "storage.googleapis.com",
+        "cloudtasks.googleapis.com",
+        "memcache.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "monitoring.googleapis.com",
+        "logging.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "app-engine"
+      },
+      "enable_alerts": true,
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-23-app-engine",
+        "display_name": "Terraform deployer for app engine project",
+        "project_roles": [
+          "roles/appengine.appAdmin",
+          "roles/cloudbuild.builds.editor",
+          "roles/artifactregistry.admin",
+          "roles/storage.admin",
+          "roles/cloudtasks.admin",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
+        ]
+      }
+    },
+    "24-cloud-datastore": {
+      "name": "Cloud Datastore",
+      "project_id": "prj-24-cloud-datastore-16748",
+      "folder_key": "24-cloud-datastore",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 100.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.1,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "datastore.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com",
+        "monitoring.googleapis.com",
+        "logging.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-datastore"
+      },
+      "enable_alerts": true,
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-24-cloud-datastore",
+        "display_name": "Terraform deployer for cloud datastore project",
+        "project_roles": [
+          "roles/datastore.owner",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageConsumer"
         ]
       }
     }
