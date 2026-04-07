@@ -2,11 +2,24 @@
 
 ### 🚀 Features
 
+- Add serverless pipeline, bigquery, app engine, and cloud datastore configurations
+
+### 🐛 Bug Fixes
+
+- Update name for serverless pipeline in hierarchy.json
+## [Rel-014-20260402161235] - 2026-04-02
+
+### 🚀 Features
+
 - Add GCP project configuration for Cloud PubSub and update KMS roles
 
 ### 🐛 Bug Fixes
 
 - Correct name for Cloud PubSub Topics and Subscriptions
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-013-20260325162733] - 2026-03-25
 
 ### 🐛 Bug Fixes
