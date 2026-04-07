@@ -820,7 +820,7 @@
         ]
       },
       "services": [
-        "firestore.googleapis.com",
+        "file.googleapis.com",
         "iam.googleapis.com",
         "cloudresourcemanager.googleapis.com"
       ],

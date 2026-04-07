@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- Update service name from firestore to file in hierarchy.json
+## [Rel-017-20260407175941] - 2026-04-07
+
+### 🐛 Bug Fixes
+
 - Update app engine name and project_id for consistency
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-016-20260407174039] - 2026-04-07
 
 ### 🐛 Bug Fixes
