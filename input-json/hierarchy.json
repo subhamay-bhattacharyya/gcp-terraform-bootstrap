@@ -1155,7 +1155,7 @@
       }
     },
     "21-serverless-pipeline": {
-      "name": "Serverless Pipeline - Cloud Function and Cloud Run",
+      "name": "Serverless Pipeline",
       "project_id": "prj-21-serverless-pipelin-16748",
       "folder_key": "21-serverless-pipeline",
       "billing_account": "015898-2F7763-830474",
