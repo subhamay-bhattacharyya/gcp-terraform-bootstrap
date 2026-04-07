@@ -1156,7 +1156,7 @@
     },
     "21-serverless-pipeline": {
       "name": "Serverless Pipeline",
-      "project_id": "prj-21-serverless-pipelin-16748",
+      "project_id": "prj-21-srvless-pipe-16748",
       "folder_key": "21-serverless-pipeline",
       "billing_account": "015898-2F7763-830474",
       "notification_email": "subhamay.aws@gmail.com",
@@ -1286,7 +1286,7 @@
     },
     "23-app-engine": {
       "name": "Google App Engine",
-      "project_id": "prj-23-app-engine-16748",
+      "project_id": "prj-23-appengine-16748",
       "folder_key": "23-app-engine",
       "billing_account": "015898-2F7763-830474",
       "notification_email": "subhamay.aws@gmail.com",
