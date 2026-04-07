@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- Update app engine name and project_id for consistency
+## [Rel-016-20260407174039] - 2026-04-07
+
+### 🐛 Bug Fixes
+
 - Correct project_id values for serverless pipeline and app engine
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-015-20260407154846] - 2026-04-07
 
 ### 🚀 Features
