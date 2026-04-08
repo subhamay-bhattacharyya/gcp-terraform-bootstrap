@@ -123,6 +123,11 @@
       "display_name": "fld-24-cloud-datastore",
       "parent_type": "folder",
       "parent_key": "000-gce-practice"
+    },
+    "25-cloud-filestore": {
+      "display_name": "fld-25-cloud-filestore",
+      "parent_type": "folder",
+      "parent_key": "000-gce-practice"
     }
   },
   "projects": {
@@ -434,7 +439,7 @@
       "name": "Cloud Load Balancing",
       "project_id": "prj-07-cloud-load-balanc-16748",
       "folder_key": "07-cloud-load-balancing",
-      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "billing_account": "015898-2F7763-830474",
       "notification_email": "subhamay.aws@gmail.com",
       "alert_thresholds": {
         "billing_amount": 200.0,
@@ -678,6 +683,7 @@
         "account_id": "sa-11-dataflow",
         "display_name": "Terraform deployer for dataflow project",
         "project_roles": [
+          "roles/dataflow.developer",
           "roles/dataflow.worker",
           "roles/storage.objectAdmin",
           "roles/pubsub.subscriber",
@@ -691,7 +697,7 @@
       "name": "Cloud Spanner",
       "project_id": "prj-12-cloud-spanner-16748",
       "folder_key": "12-cloud-spanner",
-      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "billing_account": "015898-2F7763-830474",
       "notification_email": "subhamoyb@yahoo.com",
       "alert_thresholds": {
         "billing_amount": 500.0,
@@ -820,7 +826,7 @@
         ]
       },
       "services": [
-        "file.googleapis.com",
+        "firestore.googleapis.com",
         "iam.googleapis.com",
         "cloudresourcemanager.googleapis.com"
       ],
@@ -836,9 +842,9 @@
         "account_id": "sa-14-cloud-firestore",
         "display_name": "Terraform deployer for firestore project",
         "project_roles": [
-          "roles/file.editor",
-          "roles/compute.networkUser",
-          "roles/serviceusage.serviceUsageConsumer"
+          "roles/datastore.owner",
+          "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageAdmin"
         ]
       }
     },
@@ -896,7 +902,7 @@
       "name": "Cloud Dataproc",
       "project_id": "prj-16-cloud-dataproc-16748",
       "folder_key": "16-cloud-dataproc",
-      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "billing_account": "015898-2F7763-830474",
       "notification_email": "subhamoyb@yahoo.com",
       "alert_thresholds": {
         "billing_amount": 300.0,
@@ -1224,7 +1230,7 @@
       "name": "BigQuery Data Warehouse",
       "project_id": "prj-22-bigquery-16748",
       "folder_key": "22-bigquery",
-      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "billing_account": "015898-2F7763-830474",
       "notification_email": "subhamay.aws@gmail.com",
       "alert_thresholds": {
         "billing_amount": 300.0,
@@ -1401,6 +1407,60 @@
         "project_roles": [
           "roles/datastore.owner",
           "roles/iam.serviceAccountUser",
+          "roles/serviceusage.serviceUsageConsumer"
+        ]
+      }
+    },
+    "25-cloud-filestore": {
+      "name": "Cloud Filestore",
+      "project_id": "prj-25-cloud-filestore-16748",
+      "folder_key": "25-cloud-filestore",
+      "billing_account": "010DEB-AF68D5-B8B7FE",
+      "notification_email": "subhamay.aws@gmail.com",
+      "alert_thresholds": {
+        "billing_amount": 150.0,
+        "threshold_rules": [
+          {
+            "threshold_percent": 0.25,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.5,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 0.75,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.0,
+            "spend_basis": "CURRENT_SPEND"
+          },
+          {
+            "threshold_percent": 1.1,
+            "spend_basis": "FORECASTED_SPEND"
+          }
+        ]
+      },
+      "services": [
+        "file.googleapis.com",
+        "iam.googleapis.com",
+        "cloudresourcemanager.googleapis.com"
+      ],
+      "labels": {
+        "env": "devl",
+        "team": "platform",
+        "managed-by": "terraform",
+        "gcp-service": "cloud-filestore"
+      },
+      "enable_alerts": true,
+      "service_account": {
+        "enabled": true,
+        "account_id": "sa-25-cloud-filestore",
+        "display_name": "Terraform deployer for filestore project",
+        "project_roles": [
+          "roles/file.editor",
+          "roles/compute.networkUser",
           "roles/serviceusage.serviceUsageConsumer"
         ]
       }
