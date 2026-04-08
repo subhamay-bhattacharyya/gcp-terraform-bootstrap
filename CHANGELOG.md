@@ -1,8 +1,17 @@
 ## [unreleased]
 
+### 🚀 Features
+
+- Add Cloud Filestore configuration and update billing accounts
+## [Rel-018-20260407231021] - 2026-04-07
+
 ### 🐛 Bug Fixes
 
 - Update service name from firestore to file in hierarchy.json
+
+### 📚 Documentation
+
+- Update CHANGELOG.md [skip ci]
 ## [Rel-017-20260407175941] - 2026-04-07
 
 ### 🐛 Bug Fixes
